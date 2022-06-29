@@ -23,7 +23,6 @@ npx snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
 
 ## GROTH16
 
-- TODO: Add PLONK instructions?
 - TODO: Add a contribution from a random beacon?
 
 Create circuit zkey and verification key:
@@ -36,7 +35,7 @@ npx snarkjs zkey export verificationkey circuit_0001.zkey verification_key.json
 ```
 
 
-Generate witness, proof and public inputs/outputs:
+Generate proof and public inputs/outputs:
 
 ```bash
 npx snarkjs wtns calculate circuit.wasm input.json witness.wtns
@@ -58,3 +57,36 @@ Check that an invalid input will not work:
 ```bash
 npx snarkjs groth16 verify verification_key.json fake_public.json proof.json
 ```
+
+
+## PLONK
+
+```bash
+npx snarkjs plonk setup circuit.r1cs pot12_final.ptau circuit_final.zkey
+npx snarkjs zkey verify circuit.r1cs pot12_final.ptau circuit_final.zkey
+npx snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
+```
+
+Generate proof and public inputs/outputs:
+
+```bash
+npx snarkjs wtns calculate circuit.wasm input.json witness.wtns
+npx snarkjs plonk prove circuit_final.zkey witness.wtns proof.json public.json
+
+# OR
+
+npx snarkjs plonk fullprove input.json circuit.wasm circuit_final.zkey proof.json public.json
+```
+
+Verify the proof:
+
+```bash
+npx snarkjs plonk verify verification_key.json public.json proof.json
+```
+
+Check that an invalid input will not work:
+
+```bash
+npx snarkjs plonk verify verification_key.json fake_public.json proof.json
+```
+
