@@ -7,6 +7,15 @@ Playing with zkSNARKs.
 Compile circuit:
 
 ```bash
+# NOTE: This is necessary only for circuits with "../node_modules" includes.
+
+DIR="$(basename $(pwd))"
+pushd ..
+npx circom2 $DIR/circuit.circom --r1cs --wasm --sym -o $DIR
+popd
+
+# OR, for circuits with no dependencies
+
 npx circom2 circuit.circom --r1cs --wasm --sym
 ```
 
