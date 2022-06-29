@@ -7,7 +7,7 @@ Playing with zkSNARKs.
 Compile circuit:
 
 ```bash
-npx circom circuit.circom --r1cs --wasm --sym
+npx circom2 circuit.circom --r1cs --wasm --sym
 ```
 
 Powersoftau ceremony:
@@ -19,6 +19,7 @@ Powersoftau ceremony:
 npx snarkjs powersoftau new bn128 12 pot12_0000.ptau -v
 npx snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="Some name" -v
 npx snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
+npx snarkjs powersoftau verify pot12_final.ptau
 ```
 
 ## GROTH16
@@ -38,12 +39,12 @@ npx snarkjs zkey export verificationkey circuit_0001.zkey verification_key.json
 Generate proof and public inputs/outputs:
 
 ```bash
-npx snarkjs wtns calculate circuit.wasm input.json witness.wtns
+npx snarkjs wtns calculate circuit_js/circuit.wasm input.json witness.wtns
 npx snarkjs groth16 prove circuit_0001.zkey witness.wtns proof.json public.json
 
 # OR
 
-npx snarkjs groth16 fullprove input.json circuit.wasm circuit_0001.zkey proof.json public.json
+npx snarkjs groth16 fullprove input.json circuit_js/circuit.wasm circuit_0001.zkey proof.json public.json
 ```
 
 Verify the proof:
@@ -63,19 +64,18 @@ npx snarkjs groth16 verify verification_key.json fake_public.json proof.json
 
 ```bash
 npx snarkjs plonk setup circuit.r1cs pot12_final.ptau circuit_final.zkey
-npx snarkjs zkey verify circuit.r1cs pot12_final.ptau circuit_final.zkey
 npx snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
 ```
 
 Generate proof and public inputs/outputs:
 
 ```bash
-npx snarkjs wtns calculate circuit.wasm input.json witness.wtns
+npx snarkjs wtns calculate circuit_js/circuit.wasm input.json witness.wtns
 npx snarkjs plonk prove circuit_final.zkey witness.wtns proof.json public.json
 
 # OR
 
-npx snarkjs plonk fullprove input.json circuit.wasm circuit_final.zkey proof.json public.json
+npx snarkjs plonk fullprove input.json circuit_js/circuit.wasm circuit_final.zkey proof.json public.json
 ```
 
 Verify the proof:

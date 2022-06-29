@@ -8,3 +8,5 @@ package-lock.json
 *.ptau
 *.wtns
 verification_key.json
+
+circuit_js/
